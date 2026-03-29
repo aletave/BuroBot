@@ -51,20 +51,6 @@ Apri [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## Deploy su Vercel
-
-1. Porta il repo su **GitHub** (o GitLab / Bitbucket collegato a Vercel).
-2. Su [vercel.com](https://vercel.com): **Add New → Project** e importa il repository.
-3. **Environment Variables**: aggiungi le stesse variabili del file `.env.example`.  
-   - **Indispensabile:** `GEMINI_API_KEY` — impostala per **Production**, **Preview** e **Build** (il build include i moduli che inizializzano Gemini).  
-   - **Opzionale:** `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` se usi lo storico su Supabase.  
-   - **Opzionale:** `GCP_PROJECT_ID`, `DIALOGFLOW_AGENT_ID`, `DIALOGFLOW_LOCATION` se vuoi Dialogflow sul primo messaggio; senza di esse la chat usa **solo Gemini** (deploy minimo).  
-   - **Opzionale:** per `/api/chat-grounded` servono **Vertex AI** e credenziali GCP valide in quel ambiente (service account o integrazione GCP su Vercel).
-4. **Deploy**. Da impostazioni progetto Vercel puoi scegliere una regione EU (es. Frankfurt) per le funzioni serverless, se ti serve avvicinare il traffico agli utenti in Europa.
-
-Dopo il deploy, condividi l’URL del progetto: gli utenti non clonano il repo, usano solo il sito.
-
----
 
 ## Variabili d’ambiente (riepilogo)
 
@@ -75,7 +61,6 @@ Dopo il deploy, condividi l’URL del progetto: gli utenti non clonano il repo, 
 | `GCP_PROJECT_ID`, `DIALOGFLOW_AGENT_ID`, `DIALOGFLOW_LOCATION` | Dialogflow CX sul primo messaggio (opzionale) |
 | `GCP_PROJECT_ID`, `GCP_REGION` | Vertex per `/api/chat-grounded` (opzionale) |
 
-Non committare mai il file `.env`. Usa `.env.example` come elenco dei nomi.
 
 ---
 
