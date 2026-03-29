@@ -4,6 +4,8 @@
 
 L’interfaccia è una **chat**: puoi scrivere domande a parole tue e, se serve, **allegare PDF** perché il modello li legga insieme al contesto.
 
+**Demo online:** l’app è **ospitata su [Vercel](https://vercel.com/)** ed è raggiungibile a **[https://buro-bot.vercel.app/](https://buro-bot.vercel.app/)**. L’interfaccia è **responsive** e pensata anche per l’uso da **mobile**.
+
 ---
 
 ## Contesto: AI Week — Develhope
@@ -95,6 +97,8 @@ src/
 Architettura a layer chiari (API → logica di dominio). Il modello linguistico non sostituisce consulenza legale o fiscale; va usato con attenzione su dati personali.
 
 Perché la **history** è sul client: l’API Gemini è stateless; ogni richiesta può includere la conversazione precedente. Per sessioni persistenti si può usare Supabase (se configurato nel progetto).
+
+> **Supabase e inattività:** con **Supabase** su piani in cui il progetto può andare in **pausa** se resta a lungo **inutilizzato**, il **database viene lentamente messo in standby**; al ripristino possono comparire **errori**, **timeout** o **risposte lente** finché l’istanza non è di nuovo operativa. Se noti problemi con lo storico o le sessioni, controlla dalla dashboard Supabase che il progetto non sia in pausa.
 
 ---
 

@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     "Chatta con BuroBot per capire documenti, avvisi e scadenze. Pensato per chi preferisce spiegazioni semplici: anziani, chi ha poca dimestichezza digitale, chi si è trasferito in Italia.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

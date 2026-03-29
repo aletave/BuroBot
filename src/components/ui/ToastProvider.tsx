@@ -53,12 +53,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <div
               key={toast.id}
               className={[
-                "pointer-events-auto message-fade-in rounded-2xl border border-white/70 bg-white/80 px-4 py-2.5 text-xs font-medium text-slate-700 shadow-sm shadow-slate-200/80 backdrop-blur-xl",
+                "pointer-events-auto message-fade-in rounded-2xl border border-teal-950/[0.08] bg-white/90 px-4 py-2.5 text-xs font-medium text-stone-700 shadow-sm shadow-teal-950/8 backdrop-blur-xl",
                 toast.variant === "success"
-                  ? "ring-1 ring-emerald-100/80"
+                  ? "ring-1 ring-emerald-200/70 text-emerald-900"
                   : toast.variant === "error"
-                  ? "ring-1 ring-rose-100/80 text-rose-700"
-                  : "ring-1 ring-white/70",
+                  ? "ring-1 ring-red-200/80 text-red-800"
+                  : "ring-1 ring-teal-200/50",
               ].join(" ")}
             >
               {toast.message}

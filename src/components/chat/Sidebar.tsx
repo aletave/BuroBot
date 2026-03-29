@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, X } from "lucide-react";
 import type { Message } from "@/types/chat";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/ToastProvider";
@@ -42,8 +42,17 @@ export function Sidebar(props: {
     title?: string
   ) => void;
   refreshKey?: number;
+  mobileNavOpen?: boolean;
+  onCloseMobileNav?: () => void;
 }) {
-  const { currentSessionId, onNewChat, onLoadSession, refreshKey } = props;
+  const {
+    currentSessionId,
+    onNewChat,
+    onLoadSession,
+    refreshKey,
+    mobileNavOpen = false,
+    onCloseMobileNav,
+  } = props;
   const supabaseEnabled = Boolean(supabase);
   const { addToast } = useToast();
 
@@ -301,40 +310,64 @@ export function Sidebar(props: {
   );
 
   return (
-    <aside className="glass-panel subtle-scroll flex w-72 flex-col border-r border-white/50 bg-white/35 px-4 py-4 text-slate-700 backdrop-blur-xl">
+    <div className="relative h-full w-0 shrink-0 overflow-visible md:w-72 md:shrink-0">
+      <div
+        role="presentation"
+        className={`fixed inset-0 z-30 bg-teal-950/25 backdrop-blur-[2px] transition-opacity duration-200 md:hidden ${
+          mobileNavOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
+        onClick={() => onCloseMobileNav?.()}
+      />
+      <aside
+        className={[
+          "subtle-scroll glass-panel flex h-full min-h-0 w-[min(18rem,calc(100vw-2rem))] max-w-[18rem] flex-col border-r border-teal-950/[0.08] bg-white/45 px-4 py-4 text-stone-800 backdrop-blur-xl",
+          "fixed inset-y-0 left-0 z-40 transition-transform duration-200 ease-out md:relative md:inset-auto md:z-auto md:max-w-none md:translate-x-0 md:transition-none",
+          mobileNavOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+        ].join(" ")}
+      >
       <div className="mb-4 flex items-center justify-between gap-2 px-1">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-3xl bg-white/80 shadow-sm shadow-slate-200/70 ring-1 ring-white/60">
-            <span className="text-lg font-semibold tracking-tight text-slate-700">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-3xl bg-teal-600/15 shadow-sm shadow-teal-950/10 ring-1 ring-teal-700/20">
+            <span className="text-lg font-semibold tracking-tight text-teal-900">
               B
             </span>
           </div>
-          <div>
-            <h1 className="text-sm font-semibold tracking-tight text-slate-700">
+          <div className="min-w-0">
+            <h1 className="text-sm font-semibold tracking-tight text-stone-900">
               BuroBot
             </h1>
-            <p className="text-[11px] text-slate-500">Assistente burocratico</p>
+            <p className="text-[11px] text-stone-500">Assistente burocratico</p>
           </div>
         </div>
+        <button
+          type="button"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl text-stone-500 ring-1 ring-teal-950/10 transition hover:bg-teal-50/80 hover:text-teal-900 md:hidden"
+          onClick={() => onCloseMobileNav?.()}
+          aria-label="Chiudi pannello laterale"
+        >
+          <X size={18} strokeWidth={2} />
+        </button>
       </div>
 
-      <div className="mt-1 flex-1 overflow-y-auto text-sm text-slate-600">
-        <p className="px-1 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400">
+      <div className="mt-1 flex-1 overflow-y-auto text-sm text-stone-600">
+        <p className="px-1 text-[11px] font-medium uppercase tracking-[0.12em] text-teal-800/45">
           Chat recenti
         </p>
 
         {!canShowHistory && (
-          <p className="mt-2 px-1 text-sm text-slate-500">
+          <p className="mt-2 px-1 text-sm text-stone-500">
             Storico disattivato (Supabase non configurato).
           </p>
         )}
 
         {canShowHistory && isLoadingSessions && (
-          <p className="mt-3 px-1 text-xs text-slate-400">Caricamento…</p>
+          <p className="mt-3 px-1 text-xs text-stone-400">Caricamento…</p>
         )}
 
         {canShowHistory && !isLoadingSessions && sessions.length === 0 && (
-          <p className="mt-3 px-1 text-xs text-slate-400">
+          <p className="mt-3 px-1 text-xs text-stone-400">
             Nessuna chat recente.
           </p>
         )}
@@ -351,10 +384,10 @@ export function Sidebar(props: {
                 <div
                   key={s.session_id}
                   className={[
-                    "group flex items-center justify-between gap-2 rounded-2xl px-3 py-2 text-left shadow-[0_8px_30px_rgba(15,23,42,0.04)] ring-1 ring-transparent backdrop-blur-md transition-all",
+                    "group flex items-center justify-between gap-2 rounded-2xl px-3 py-2 text-left shadow-[0_8px_28px_rgba(15,77,72,0.05)] ring-1 ring-transparent backdrop-blur-md transition-all",
                     active
-                      ? "bg-white/80 ring-1 ring-slate-200"
-                      : "bg-white/40 hover:-translate-y-0.5 hover:bg-white/80 hover:ring-1 hover:ring-slate-200/70",
+                      ? "bg-teal-50/70 ring-1 ring-teal-300/45"
+                      : "bg-white/45 hover:-translate-y-0.5 hover:bg-white/75 hover:ring-1 hover:ring-teal-200/50",
                     isLoadingThis || isMutating ? "opacity-70" : "",
                   ].join(" ")}
                 >
@@ -385,14 +418,14 @@ export function Sidebar(props: {
                           void commitRename();
                         }}
                         autoFocus
-                        className="w-full rounded-xl border border-white/70 bg-white/90 px-2.5 py-1.5 text-xs font-medium text-slate-700 outline-none ring-1 ring-transparent focus:border-slate-200 focus:ring-2 focus:ring-slate-200/90"
+                        className="w-full rounded-xl border border-teal-950/10 bg-white/95 px-2.5 py-1.5 text-xs font-medium text-stone-800 outline-none ring-1 ring-transparent focus:border-teal-300/60 focus:ring-2 focus:ring-teal-300/40"
                       />
                     ) : (
-                      <div className="line-clamp-1 text-[13px] font-medium text-slate-700">
+                      <div className="line-clamp-1 text-[13px] font-medium text-stone-800">
                         {s.title}
                       </div>
                     )}
-                    <div className="mt-0.5 text-[11px] text-slate-400">
+                    <div className="mt-0.5 text-[11px] text-stone-400">
                       {relativeDayLabel(d)}
                     </div>
                   </button>
@@ -404,7 +437,7 @@ export function Sidebar(props: {
                         void handleRename(s.session_id);
                       }}
                       disabled={isLoadingThis || isMutating}
-                      className="flex h-4 w-4 items-center justify-center text-slate-400 transition-all hover:-translate-y-0.5 hover:scale-105 hover:text-slate-600"
+                      className="flex h-4 w-4 items-center justify-center text-stone-400 transition-all hover:-translate-y-0.5 hover:scale-105 hover:text-teal-800"
                       title="Rinomina chat"
                     >
                       <Pencil size={12} />
@@ -416,7 +449,7 @@ export function Sidebar(props: {
                         setConfirmDeleteSessionId(s.session_id);
                       }}
                       disabled={isLoadingThis || isMutating}
-                      className="flex h-4 w-4 items-center justify-center text-slate-400 transition-all hover:-translate-y-0.5 hover:scale-105 hover:text-rose-500"
+                      className="flex h-4 w-4 items-center justify-center text-stone-400 transition-all hover:-translate-y-0.5 hover:scale-105 hover:text-red-600"
                       title="Elimina chat"
                     >
                       <Trash2 size={12} />
@@ -435,31 +468,31 @@ export function Sidebar(props: {
         )}
       </div>
 
-      <div className="mt-3 flex items-center justify-between gap-2 border-t border-white/40 pt-3">
+      <div className="mt-3 flex items-center justify-between gap-2 border-t border-teal-950/[0.08] pt-3">
         <button
           type="button"
           onClick={onNewChat}
-          className="group inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-2xl bg-white/60 px-3 text-[11px] font-medium text-slate-600 shadow-sm shadow-slate-200/50 ring-1 ring-white/70 backdrop-blur-lg transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-700 hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)]"
+          className="group inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-2xl bg-teal-800 px-3 text-[11px] font-medium text-teal-50 shadow-sm shadow-teal-950/20 ring-1 ring-teal-900/20 backdrop-blur-lg transition-all hover:-translate-y-0.5 hover:bg-teal-900 hover:shadow-[0_10px_28px_rgba(15,77,72,0.22)]"
         >
-          <Plus size={12} className="text-slate-700" />
+          <Plus size={12} className="text-teal-100" />
           <span>Nuova chat</span>
         </button>
       </div>
 
       {confirmDeleteSessionId && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
-          <div className="message-fade-in glass-elevated max-w-sm rounded-3xl border border-white/70 bg-white/80 px-5 py-4 text-sm text-slate-700 shadow-[0_18px_45px_rgba(15,23,42,0.12)] backdrop-blur-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-teal-950/30 px-4 backdrop-blur-sm">
+          <div className="message-fade-in glass-elevated max-w-sm rounded-3xl border border-teal-950/[0.08] bg-white/90 px-5 py-4 text-sm text-stone-700 shadow-[0_20px_50px_rgba(15,77,72,0.14)] backdrop-blur-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-800/50">
               Elimina chat
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-stone-600">
               Vuoi davvero eliminare definitivamente questa chat? L&apos;operazione non è reversibile.
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setConfirmDeleteSessionId(null)}
-                className="inline-flex items-center justify-center rounded-2xl border border-white/70 bg-white/60 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm shadow-slate-200/70 backdrop-blur-xl transition hover:bg-white/90"
+                className="inline-flex items-center justify-center rounded-2xl border border-teal-950/10 bg-white/70 px-3 py-1.5 text-xs font-medium text-stone-600 shadow-sm shadow-teal-950/5 backdrop-blur-xl transition hover:bg-teal-50/80"
               >
                 Annulla
               </button>
@@ -470,7 +503,7 @@ export function Sidebar(props: {
                   setConfirmDeleteSessionId(null);
                   void handleDelete(id);
                 }}
-                className="inline-flex items-center justify-center rounded-2xl bg-rose-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm shadow-rose-300/70 backdrop-blur-xl transition hover:bg-rose-600"
+                className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm shadow-red-900/20 backdrop-blur-xl transition hover:bg-red-700"
               >
                 Elimina chat
               </button>
@@ -479,6 +512,7 @@ export function Sidebar(props: {
         </div>
       )}
     </aside>
+    </div>
   );
 }
 

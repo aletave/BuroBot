@@ -8,7 +8,7 @@ function DocChip({ href, label }: { href: string; label: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center rounded-lg bg-slate-100/80 px-2 py-0.5 text-[11px] font-medium text-slate-700 ring-1 ring-white/80 transition hover:bg-slate-200/80"
+      className="inline-flex items-center rounded-lg bg-teal-100/85 px-2 py-0.5 text-[11px] font-medium text-teal-900 ring-1 ring-teal-200/60 transition hover:bg-teal-200/70"
     >
       {label}
     </a>
@@ -66,8 +66,8 @@ export function MessageBubble({ message, isStreaming }: MessageBubbleProps) {
     <div
       className={`message-fade-in w-fit max-w-[85%] px-4 py-2 text-[13px] leading-relaxed ${
         isUser
-          ? "ml-auto rounded-2xl rounded-tr-sm bg-neutral-900 text-white shadow-sm shadow-black/30"
-          : "mr-auto rounded-2xl bg-white text-neutral-800 shadow-sm shadow-slate-200/80 ring-1 ring-neutral-200"
+          ? "ml-auto rounded-2xl rounded-tr-sm bg-teal-900 text-teal-50 shadow-md shadow-teal-950/25"
+          : "mr-auto rounded-2xl bg-stone-50/95 text-stone-800 shadow-sm shadow-teal-950/8 ring-1 ring-teal-950/[0.06]"
       }`}
     >
       {isUser ? (
@@ -97,8 +97,8 @@ export function MessageBubble({ message, isStreaming }: MessageBubbleProps) {
             <ReactMarkdown>{displayedText}</ReactMarkdown>
           </div>
           {message.sources && message.sources.length > 0 && (
-            <div className="mt-2 border-t border-gray-200 pt-2">
-              <p className="mb-1 text-xs font-semibold text-slate-600">Fonti</p>
+            <div className="mt-2 border-t border-teal-200/50 pt-2">
+              <p className="mb-1 text-xs font-semibold text-teal-900/70">Fonti</p>
               <ul className="list-inside list-disc space-y-0.5 text-xs">
                 {message.sources.map((src, i) => (
                   <li key={i}>
@@ -106,7 +106,7 @@ export function MessageBubble({ message, isStreaming }: MessageBubbleProps) {
                       href={src.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-indigo-600 underline hover:text-indigo-800"
+                      className="font-medium text-teal-700 underline decoration-teal-600/40 underline-offset-2 hover:text-teal-900"
                     >
                       {src.title || src.url}
                     </a>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { PanelLeft } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 import type {
   Message,
@@ -28,6 +29,7 @@ export function ChatWindow(props: {
   onSessionActivity?: () => void;
   sessionTitle?: string | null;
   onTitleChange?: (title: string) => void;
+  onOpenMobileNav?: () => void;
 }) {
   const {
     sessionId,
@@ -39,6 +41,7 @@ export function ChatWindow(props: {
     onSessionActivity,
     sessionTitle,
     onTitleChange,
+    onOpenMobileNav,
   } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -417,21 +420,33 @@ export function ChatWindow(props: {
   }, [messages, sessionTitle]);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col">
       {/* Barra superiore fissa sopra l’area scrollabile */}
-      <div className="glass-panel border-b border-white/50 bg-white/40 px-6 py-4 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
-          <div>
-            <h2 className="text-sm font-semibold tracking-tight text-slate-700">
-              {chatTitle}
-            </h2>
-            <p className="text-[11px] text-slate-400">
-              Sessione attiva di BuroBot
-            </p>
+      <div className="glass-panel border-b border-teal-950/[0.06] bg-white/55 px-3 py-3 backdrop-blur-xl sm:px-6 sm:py-4">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+            {onOpenMobileNav && (
+              <button
+                type="button"
+                onClick={onOpenMobileNav}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-teal-900/80 ring-1 ring-teal-900/10 transition hover:bg-teal-50/90 hover:text-teal-950 md:hidden"
+                aria-label="Apri menu e cronologia chat"
+              >
+                <PanelLeft size={20} strokeWidth={2} />
+              </button>
+            )}
+            <div className="min-w-0">
+              <h2 className="truncate text-sm font-semibold tracking-tight text-stone-800">
+                {chatTitle}
+              </h2>
+              <p className="text-[11px] text-stone-500">
+                Sessione attiva di BuroBot
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto px-4 py-4 pb-36">
+      <div className="flex-1 overflow-y-auto px-3 py-3 pb-36 sm:px-4 sm:py-4">
         <div className="mx-auto flex h-full max-w-3xl flex-col gap-5">
           {uploadError && (
             <p className="mb-3 text-base text-red-500" role="alert">
@@ -440,17 +455,17 @@ export function ChatWindow(props: {
           )}
           {messages.length === 0 && !isLoading && (
             <div className="flex flex-1 items-center justify-center">
-              <div className="glass-elevated w-full max-w-xl rounded-3xl bg-white/60 px-8 py-9 text-slate-700 shadow-[0_8px_30px_rgba(15,23,42,0.08)] ring-1 ring-white/55 backdrop-blur-2xl sm:px-10 sm:py-10">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+              <div className="glass-elevated w-full max-w-xl rounded-3xl bg-white/65 px-5 py-7 text-stone-700 shadow-[0_8px_32px_rgba(15,77,72,0.08)] ring-1 ring-teal-950/[0.07] backdrop-blur-2xl sm:px-10 sm:py-10">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-800/50">
                   Benvenuto in BuroBot
                 </p>
-                <h2 className="mt-3 text-xl font-semibold leading-snug text-neutral-800">
+                <h2 className="mt-3 text-lg font-semibold leading-snug text-stone-900 sm:text-xl">
                   Carica un PDF o chiedi
-                  <span className="ml-1 bg-gradient-to-r from-slate-700 via-slate-500 to-slate-400 bg-clip-text text-transparent">
+                  <span className="ml-1 bg-gradient-to-r from-teal-800 via-teal-600 to-emerald-600 bg-clip-text text-transparent">
                     in che ufficio andare.
                   </span>
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-slate-500">
+                <p className="mt-4 text-sm leading-relaxed text-stone-600">
                   BuroBot legge la burocrazia per te e ti restituisce prossimi
                   passi chiari, umani, senza legalese.
                 </p>
@@ -464,7 +479,7 @@ export function ChatWindow(props: {
                       key={example}
                       type="button"
                       onClick={() => handleSend(example)}
-                      className="group rounded-2xl bg-white/40 px-4 py-3 text-left text-[13px] text-slate-600 ring-1 ring-white/60 backdrop-blur-xl shadow-sm shadow-slate-200/60 transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-700 hover:shadow-[0_8px_30px_rgba(15,23,42,0.14)]"
+                      className="group rounded-2xl border border-teal-950/[0.06] bg-white/50 px-4 py-3 text-left text-[13px] text-stone-700 shadow-sm shadow-teal-950/5 backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-teal-50/60 hover:text-teal-950 hover:shadow-[0_10px_36px_rgba(15,77,72,0.12)]"
                     >
                       <span className="inline-flex items-center gap-2 text-[13px]">
                         <span>{example}</span>
@@ -532,7 +547,7 @@ export function ChatWindow(props: {
               <div key={msg.id}>
                 {showDateBadge && label && (
                   <div className="my-4 flex justify-center">
-                    <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-500 shadow-sm shadow-neutral-200/70">
+                    <span className="rounded-full bg-stone-200/50 px-3 py-1 text-xs font-medium text-stone-600 shadow-sm shadow-teal-950/5 ring-1 ring-stone-300/40">
                       {label}
                     </span>
                   </div>
@@ -542,7 +557,7 @@ export function ChatWindow(props: {
             );
           })}
           {isLoading && (
-            <div className="mr-auto flex max-w-[72%] items-center gap-2 rounded-3xl bg-white/70 px-4 py-2.5 text-sm text-slate-500 shadow-[0_8px_30px_rgba(15,23,42,0.06)] ring-1 ring-white/70 backdrop-blur-xl">
+            <div className="mr-auto flex max-w-[72%] items-center gap-2 rounded-3xl bg-white/75 px-4 py-2.5 text-sm text-stone-500 shadow-[0_8px_30px_rgba(15,77,72,0.06)] ring-1 ring-teal-950/[0.06] backdrop-blur-xl">
               <span className="typing-dot animate-typing-dot delay-0" />
               <span className="typing-dot animate-typing-dot delay-150" />
               <span className="typing-dot animate-typing-dot delay-300" />
@@ -552,7 +567,7 @@ export function ChatWindow(props: {
           <div id="chat-end" ref={messagesEndRef} aria-hidden />
         </div>
       </div>
-      <footer className="sticky bottom-0 border-t border-gray-200 bg-white px-3 py-2">
+      <footer className="sticky bottom-0 border-t border-teal-950/[0.06] bg-[#fffcf8]/95 px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(15,77,72,0.04)] backdrop-blur-md sm:px-3">
         <div className="mx-auto flex w-full max-w-3xl flex-col">
           <ChatInput
             onSend={handleSend}

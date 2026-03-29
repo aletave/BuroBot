@@ -100,8 +100,8 @@ export function ChatInput({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-1">
       <div
-        className={`flex flex-col gap-1.5 rounded-2xl border border-neutral-200 bg-white px-3 py-2 text-slate-700 shadow-sm shadow-slate-200/70 transition-all sm:px-3.5 sm:py-2 ${
-          isDragging ? "ring-1 ring-neutral-300" : "ring-0"
+        className={`flex flex-col gap-1.5 rounded-2xl border border-teal-950/[0.08] bg-white px-3 py-2 text-stone-800 shadow-sm shadow-teal-950/6 transition-all sm:px-3.5 sm:py-2 ${
+          isDragging ? "ring-2 ring-teal-500/30" : "ring-0"
         }`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -133,16 +133,16 @@ export function ChatInput({
             onChange={(e) => setValue(e.target.value)}
             placeholder="Scrivi un messaggio..."
             disabled={disabled}
-            className="flex-1 rounded-md border border-transparent bg-transparent px-3 py-1.5 text-[13px] text-neutral-900 outline-none placeholder:text-neutral-400 focus:border-neutral-300 focus:ring-0 disabled:opacity-60"
+            className="flex-1 rounded-md border border-transparent bg-transparent px-3 py-1.5 text-[13px] text-stone-900 outline-none placeholder:text-stone-400 focus:border-teal-300/50 focus:ring-0 disabled:opacity-60"
           />
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={disabled || isUploading}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-neutral-700 shadow-sm shadow-slate-200/70 ring-1 ring-neutral-200 transition-all hover:bg-neutral-200 disabled:opacity-50"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal-50 text-teal-900 shadow-sm shadow-teal-950/8 ring-1 ring-teal-900/10 transition-all hover:bg-teal-100 disabled:opacity-50"
           >
             {isUploading ? (
-              <span className="h-3 w-3 animate-spin rounded-full border-2 border-neutral-400 border-t-transparent" />
+              <span className="h-3 w-3 animate-spin rounded-full border-2 border-teal-500 border-t-transparent" />
             ) : (
               <FileUp size={14} />
             )}
@@ -150,7 +150,7 @@ export function ChatInput({
           <button
             type="submit"
             disabled={disabled || isUploading || !value.trim()}
-            className="inline-flex h-8 items-center justify-center rounded-full bg-neutral-900 px-4 text-[11px] font-semibold text-white shadow-sm shadow-black/40 transition-all hover:bg-neutral-800 disabled:opacity-40"
+            className="inline-flex h-8 items-center justify-center rounded-full bg-teal-800 px-4 text-[11px] font-semibold text-teal-50 shadow-md shadow-teal-950/25 transition-all hover:bg-teal-900 disabled:opacity-40"
           >
             <SendHorizontal size={14} className="mr-1" />
             <span>Invia</span>
