@@ -5,6 +5,7 @@
 L’interfaccia è una **chat**: puoi scrivere domande a parole tue e, se serve, **allegare PDF** perché il modello li legga insieme al contesto.
 
 **Demo online:** l’app è **ospitata su [Vercel](https://vercel.com/)** ed è raggiungibile a **[https://buro-bot.vercel.app/](https://buro-bot.vercel.app/)**. L’interfaccia è **responsive** e pensata anche per l’uso da **mobile**.
+Attualmente non è implementata la versione che consente la creazione di un proprio account con relative chat salvate in memoria e personali. Le chat sono condivise da chiunque provi il bot. Per via del progetto si è optato in questa direzione di implementazione.
 
 ---
 
